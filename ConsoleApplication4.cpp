@@ -30,7 +30,6 @@ int verify_sign(const char* target, const char* source,
 int sign(const char* target, const char* source,
     unsigned char sk[crypto_sign_SECRETKEYBYTES]);
 
-int test();
 int terminal();
 
 int main()
@@ -83,7 +82,7 @@ int terminal() {
             //Case 1| Generation of keys
         case 1:
             //Selects the kind of key to create.
-            cout << "Ingresa la acción a realizar:" << endl <<
+            cout << "Ingresa la accion a realizar:" << endl <<
                 "\t1. Generar llave para encriptar" << endl <<
                 "\t2. Generar par de llaves de firma" << endl;
             std::cin >> inStatus;
@@ -177,7 +176,7 @@ int terminal() {
                 cout << "No fue posible descifrar el archivo" << endl;
                 break;
             }
-            cout << "Se descrifro correctamente el archivo" << endl;
+            cout << "Se descifro correctamente el archivo" << endl;
             break;
 
         //case 5 | Sign File
@@ -195,7 +194,7 @@ int terminal() {
 
         //case 6 | verify sign and design file
         case 6:
-            cout << "Ingresa el archivo a verificar" << endl;
+            cout << "Ingresa el archivo a verificar firma" << endl;
             cin >> tmp;
             cout << "Ingresa el nombre a guardar" << endl;
             cin >> tmp2;
@@ -216,39 +215,6 @@ int terminal() {
 
 }
 
-int test() {
-    string name_key;
-    string name_sign_keys;
-    cout << "Ingresar nombre para llave de encriptado" << endl;
-    std::cin >> name_key;
-    name_key += ".key";
-
-    cout << "Ingresa el nombre para el par para firmar" << endl;
-    std::cin >> name_sign_keys;
-
-    create_key(name_key.c_str());
-    create_public_private_keys(name_sign_keys.c_str());
-
-    //Lectura
-    unsigned char key[crypto_secretstream_xchacha20poly1305_KEYBYTES];
-    unsigned char pk[crypto_sign_PUBLICKEYBYTES];
-    unsigned char sk[crypto_sign_SECRETKEYBYTES];
-
-    read_file(name_key.c_str(), key, crypto_secretstream_xchacha20poly1305_KEYBYTES);
-
-    read_file((name_sign_keys + ".pk").c_str(), pk, crypto_sign_PUBLICKEYBYTES);
-
-
-    read_file((name_sign_keys + ".sk").c_str(), sk, crypto_sign_SECRETKEYBYTES);
-
-    //encrypt("encry.txt", "PlainText.txt", key);
-    //decrypt("decrypt.txt", "encry.txt", key);
-    sign("signed.txt", "PlainText.txt", sk);
-    verify_sign("design.txt", "signed.txt", pk);
-    //decrypt("designdecrypt.txt", "design.txt", key);
-    //decrypt("signedecripted.txt", "signcry.txt", key);
-    return 0;
-}
 int read_file(const char* name, unsigned char* dir, unsigned int size) {
     /*Read a file usign the name variable, and save it on the dir array of size size*/
     FILE* file;
